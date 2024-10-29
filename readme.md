@@ -1,8 +1,9 @@
-# Task Management App for Users with ADHD
+# Focus Loop
 
 ## Project Overview
 
-This app is designed to help users, especially those with ADHD, manage tasks and deadlines effectively. It incorporates a reward system to encourage consistent task completion, as well as an optional “rush mode” for increased focus on time-sensitive subtasks.
+The Focus Loop is designed to help users, especially those with ADHD, manage tasks and deadlines effectively. It incorporates a reward system to encourage consistent task completion, as well as an optional “marathon mode” for increased focus on time-sensitive subtasks.
+
 
 ## Functionalities and Logic
 
@@ -15,11 +16,11 @@ This app is designed to help users, especially those with ADHD, manage tasks and
         [ ] Absolute Deadline: A specific date and time.
         [ ] Relative Deadline: A time interval from when the subtask becomes active (e.g., 25 minutes, 1 hour, 1 day).
         [ ] Deadlines are unchangeable once set.
-        [ ] If a task or subtask deadline is missed, the task is marked as failed and removed (or archived if tracking failed tasks).
+        [ ] If a task or subtask deadline is missed, the task is removed completely.
     3.	Subtasks and Sequential Unlocking
         [ ] Subtasks must be completed sequentially, with the next subtask unlocking only if the previous one is completed on time.
         [ ] This unlocking mechanism applies to both absolute and relative deadlines.
-        [ ] If any subtask in “rush mode” fails, the entire task is marked as failed.
+        [ ] If any subtask in “marathon mode” fails, the entire task is marked as failed.
     4.	Point System with Streaks
         [ ] Tasks: Each completed task without subtasks earns 1 point.
         [ ] Task Streaks: For a streak of completed tasks, points increase logarithmically:
@@ -49,7 +50,7 @@ This app is designed to help users, especially those with ADHD, manage tasks and
 
 ## Technology stack:
 
-### Frontend
+### Client Web service
 
     - Nuxt 3 (Vue 3)
     - TypeScript
@@ -57,12 +58,12 @@ This app is designed to help users, especially those with ADHD, manage tasks and
     - Pinia
     - Components framework TBD
 
-### Backend
+### Server service
 
     - Node.js
     - Express
 
-### Database
+### Database services
 
     - MongoDB
     - Redis
