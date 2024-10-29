@@ -1,0 +1,39 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://groot:iamgroot@localhost:27017/?directConnection=true
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+
+  client-web:
+    build:
+      context: ./client-web
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # Adjust the port as needed
+
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: groot
+      MONGO_INITDB_ROOT_PASSWORD: iamgroot
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --eval 'db.runCommand(\"ping\").ok'"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+volumes:
+  mongodb_data:
