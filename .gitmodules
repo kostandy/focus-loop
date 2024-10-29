@@ -1,3 +1,6 @@
 [submodule "client-web"]
 	path = client-web
 	url = git@github.com:kostandy/focus-loop-client-web-service.git
+[submodule "server"]
+	path = server
+	url = git@github.com:kostandy/focus-loop-server-service.git
