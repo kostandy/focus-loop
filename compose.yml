@@ -1,23 +1,29 @@
+name: focus-loop
+
 services:
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3073:3000"
     environment:
-      - MONGO_URI=mongodb://groot:iamgroot@localhost:27017/?directConnection=true
+      - MONGO_URI=mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongo/
     depends_on:
       mongo:
         condition: service_healthy
         restart: true
+    profiles:
+      - backend
 
   client-web:
     build:
       context: ./client-web
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"  # Adjust the port as needed
+      - "3037:3000"
+    profiles:
+      - frontend
 
   mongo:
     image: mongodb/mongodb-community-server:latest
@@ -26,10 +32,10 @@ services:
     volumes:
       - mongodb_data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: groot
-      MONGO_INITDB_ROOT_PASSWORD: iamgroot
+      MONGODB_INITDB_ROOT_USERNAME: ${MONGODB_INITDB_ROOT_USERNAME}
+      MONGODB_INITDB_ROOT_PASSWORD: ${MONGODB_INITDB_ROOT_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "mongo --eval 'db.runCommand(\"ping\").ok'"]
+      test: ["CMD-SHELL", "bash", "-c", "echo 'db.adminCommand(\"ping\")' | mongo localhost:27017 --quiet"]
       interval: 10s
       retries: 5
       start_period: 30s
