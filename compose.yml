@@ -2,6 +2,7 @@ name: focus-loop
 
 services:
   server:
+    container_name: focus-loop-server
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -15,8 +16,10 @@ services:
         restart: true
     profiles:
       - backend
+    command: ["npm", "run", "dev"]
 
   client-web:
+    container_name: focus-loop-client-web
     build:
       context: ./client-web
       dockerfile: Dockerfile
@@ -26,6 +29,7 @@ services:
       - frontend
 
   mongo:
+    container_name: focus-loop-mongo
     image: mongodb/mongodb-community-server:latest
     ports:
       - "27017:27017"
