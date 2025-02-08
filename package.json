@@ -1,0 +1,9 @@
+{
+    "name": "focus-loop",
+    "description": "This package contains scripts for initializing services",
+    "scripts": {
+        "init": "npm run init:web-client & npm run init:server",
+        "init:web-client": "npm i git+ssh://git@github.com:kostandy/focus-loop-client-web-service.git#v1.0.0",
+        "init:server": "npm i git+ssh://git@github.com:kostandy/focus-loop-server-service.git#v1.0.0"
+    }
+}
