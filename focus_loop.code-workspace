@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "focus-loop__root"
+		},
+		{
+			"path": "client-web",
+			"name": "focus-loop__client-web"
+		},
+		{
+			"path": "server",
+			"name": "focus-loop__server"
+		}
+	],
+	"settings": {
+		"focus-loop__server": {
+			"typescript.tsdk": "focus-loop__server/node_modules/typescript/lib",
+		},
+		"focus-loop__client-web": {
+			"typescript.tsdk": "focus-loop__client-web/node_modules/typescript/lib"
+		}
+	}
+}
