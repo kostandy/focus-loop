@@ -6,18 +6,28 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+      target: ${NODE_ENV:-development}
     ports:
-      - "3073:3000"
+      - "${SERVER_PORT:-3073}:3000"
     environment:
+      - NODE_ENV=${NODE_ENV:-development}
       - MONGO_URI=mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongo/
+    volumes:
+      - ./server:/usr/src/app:delegated
+      - /usr/src/app/node_modules
     depends_on:
       mongo:
         condition: service_healthy
-        restart: true
     profiles:
       - backend
     command: ["npm", "run", "dev"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -A 'Health-Checker' http://localhost:3000/health-check || exit 1"]
+      interval: ${HEALTHCHECK_INTERVAL:-60s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
 
+  # TODO: Use nginx inside client-web container
   client-web:
     container_name: focus-loop-client-web
     build:
@@ -47,3 +57,5 @@ services:
 
 volumes:
   mongodb_data:
+    # Use named volume to cache MongoDB data
+    driver: local
